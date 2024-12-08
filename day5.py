@@ -1,67 +1,65 @@
-# Minimize the Heights II
-# Given an array arr[] denoting heights of N towers and a positive integer K.
+# Next Permutation
+# Given an array of integers arr[] representing a permutation, implement the next permutation that rearranges the numbers into the lexicographically next greater permutation. If no such permutation exists, rearrange the numbers into the lowest possible order (i.e., sorted in ascending order). 
 
-# For each tower, you must perform exactly one of the following operations exactly once.
+# Note - A permutation of an array of integers refers to a specific arrangement of its elements in a sequence or linear order.
 
-# Increase the height of the tower by K
-# Decrease the height of the tower by K
-# Find out the minimum possible difference between the height of the shortest and tallest towers after you have modified each tower.
+# Examples:
 
-# You can find a slight modification of the problem here.
-# Note: It is compulsory to increase or decrease the height by K for each tower. After the operation, the resultant array should not contain any negative integers.
-
-# Examples :
-
-# Input: k = 2, arr[] = {1, 5, 8, 10}
-# Output: 5
-# Explanation: The array can be modified as {1+k, 5-k, 8-k, 10-k} = {3, 3, 6, 8}.The difference between the largest and the smallest is 8-3 = 5.
-# Input: k = 3, arr[] = {3, 9, 12, 16, 20}
-# Output: 11
-# Explanation: The array can be modified as {3+k, 9+k, 12-k, 16-k, 20-k} -> {6, 12, 9, 13, 17}.The difference between the largest and the smallest is 17-6 = 11. 
-# Expected Time Complexity: O(n*logn)
-# Expected Auxiliary Space: O(n)
-
-# Constraints
-# 1 ≤ k ≤ 107
-# 1 ≤ n ≤ 105
-# 1 ≤ arr[i] ≤ 107
+# Input: arr = [2, 4, 1, 7, 5, 0]
+# Output: [2, 4, 5, 0, 1, 7]
+# Explanation: The next permutation of the given array is {2, 4, 5, 0, 1, 7}.
+# Input: arr = [3, 2, 1]
+# Output: [1, 2, 3]
+# Explanation: As arr[] is the last permutation, the next permutation is the lowest one.
+# Input: arr = [3, 4, 2, 5, 1]
+# Output: [3, 4, 5, 1, 2]
+# Explanation: The next permutation of the given array is {3, 4, 5, 1, 2}.
+# Constraints:
+# 1 ≤ arr.size() ≤ 105
+# 1 ≤ arr[i] ≤ 105
 
 SOLUTION:-
 
 class Solution:
-    def getMinDiff(self, arr,k):
+    def nextPermutation(self, arr):
+        # code here
         n = len(arr)
-        arr.sort()
-        res = arr[n - 1] - arr[0]
-        for i in range(1, len(arr)):
-            if arr[i] - k < 0:
-                continue
+    
+    # Step 1: Find the rightmost ascent
+        i = n - 2
+        while i >= 0 and arr[i] >= arr[i + 1]:
+            i -= 1
+    
+        if i >= 0:  # If we found an ascent
+        # Step 2: Find the element to swap
+            j = n - 1
+            while arr[j] <= arr[i]:
+                j -= 1
+        
+        # Swap elements at i and j
+            arr[i], arr[j] = arr[j], arr[i]
+    
+    # Step 3: Reverse the suffix
+        arr[i + 1:] = reversed(arr[i + 1:])
 
-        # Minimum height after modification
-            minH = min(arr[0] + k, arr[i] - k)
 
-        # Maximum height after modification
-            maxH = max(arr[i - 1] + k, arr[n - 1] - k)
-
-        # Store the minimum difference as result
-            res = min(res, maxH - minH)
-        return res
-       
-            
 
 #{ 
  # Driver Code Starts
 #Initial Template for Python 3
 
 if __name__ == '__main__':
-    tc = int(input())
-    while tc > 0:
-        k = int(input())
-        # n = int(input())
-        arr = list(map(int, input().strip().split()))
+    t = int(input())
+    for _ in range(t):
+        arr = input().split()
+        N = len(arr)
+        for i in range(N):
+            arr[i] = int(arr[i])
+
         ob = Solution()
-        ans = ob.getMinDiff(arr, k)
-        print(ans)
-        tc -= 1
+        ob.nextPermutation(arr)
+        for i in range(N):
+            print(arr[i], end=" ")
+        print()
 
 # } Driver Code Ends
